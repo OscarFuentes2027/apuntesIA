@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* Color de fondo del documento */
+}
+
+.portada {
+    position: relative;
+    width: 100%;
+    height: 300px; /* Ajusta la altura según tus necesidades */
+    overflow: hidden;
+}
+
+.portada img {
+    width: 100%;
+    height: auto;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Añadir un degradado para desvanecer la imagen al fondo del documento */
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+    mask-position: 0 50%; /* El degradado empieza desde la mitad */
+    mask-size: 100% 200%; /* Aumenta el tamaño del degradado para cubrir desde la mitad hacia abajo */
+}

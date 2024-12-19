@@ -60,37 +60,29 @@ Para llevar a cabo el análisis, utilicé varias herramientas específicas:
 Entre los algoritmos desarrollados, destaco uno diseñado para limpiar caracteres extraños presentes en los datos extraídos mediante web scraping y en los documentos procesados desde los PDFs. Este algoritmo tuvo un papel crucial en la normalización de la información para su análisis posterior. A continuación, presento el código utilizado: 
 
 ```python
-import re
 import pdfplumber
 import os
 
-# Función para limpiar texto
-def clean_text(text):
-    # Eliminar saltos de línea múltiples
-    text = re.sub(r'\n+', '\n', text)
-    # Quitar encabezados o pie de página (si tienen un patrón)
-    text = re.sub(r'(Página\s\d+)', '', text)
-    # Eliminar espacios en blanco extra
-    text = re.sub(r'\s+', ' ', text)
-    return text.strip()
+# Ruta del directorio donde están los PDFs
+pdf_dir = "./general_organismos_autonomos"
+output_dir = "./general_or_text"
+os.makedirs(output_dir, exist_ok=True)
 
-# Limpiar todos los textos
-text_dir = "./web"
-clean_dir = "./limpios"
-os.makedirs(clean_dir, exist_ok=True)
-
-for text_file in os.listdir(text_dir):
-    if text_file.endswith(".txt"):
-        text_path = os.path.join(text_dir, text_file)
-        with open(text_path, "r", encoding="utf-8") as f:
-            raw_text = f.read()
-        cleaned_text = clean_text(raw_text)
+# Iterar sobre todos los archivos PDF
+for pdf_file in os.listdir(pdf_dir):
+    if pdf_file.endswith(".pdf"):
+        pdf_path = os.path.join(pdf_dir, pdf_file)
+        output_path = os.path.join(output_dir, f"{os.path.splitext(pdf_file)[0]}.txt")
         
-        # Guardar texto limpio
-        output_path = os.path.join(clean_dir, text_file)
+        with pdfplumber.open(pdf_path) as pdf:
+            text = ""
+            for page in pdf.pages:
+                text += page.extract_text()
+        
+        # Guardar texto en un archivo .txt
         with open(output_path, "w", encoding="utf-8") as f:
-            f.write(cleaned_text)
-        print(f"Texto limpio guardado en: {output_path}")
+            f.write(text)
+        print(f"Texto extraído y guardado en: {output_path}")
 ```
 
 ## Algoritmo de limpieza de texto
@@ -442,14 +434,16 @@ La eliminación de los organismos autónomos tendría un impacto negativo en mú
 La combinación de herramientas como **BeautifulSoup**, **pdfplumber**, **pandas**, y **Ollama** con el modelo **LLaMA 3.2** permitió procesar, estructurar y analizar una gran cantidad de información de forma organizada y efectiva. Esto no solo simplificó el análisis, sino que también garantizó que las respuestas fueran confiables y basadas en datos previamente curados.
 
 ### Postura
-Al analizar los pros y contras de las propuestas relacionadas con el poder judicial y los organismos autónomos, es evidente que las desventajas superan a los beneficios potenciales. Aunque algunas medidas parecen estar orientadas a mejorar la eficiencia y calidad del sistema, existen riesgos significativos que podrían comprometer los principios fundamentales de transparencia, rendición de cuentas y derechos humanos.
+Lo que afirmo es que, al evaluar los pros y contras, existen numerosos beneficios. En otras palabras, hay beneficios que, si te los imaginas, podrían ser magníficos y funcionar de manera óptima. Hay numerosas situaciones actuales en las que jueces liberan a narcos o personas corruptas por razones absurdas, como la falta de pruebas. Por lo tanto, hay muchas situaciones en las que jueces liberan a narcos o personas corruptas por motivos absurdos. 
 
-Por un lado, las reformas que buscan fortalecer la independencia y la integridad de los jueces, como la selección basada en méritos y los mecanismos de protección contra la violencia, son pasos en la dirección correcta. Sin embargo, estas medidas requieren un compromiso real en su implementación, acompañado de recursos suficientes y estrategias sólidas para evitar su manipulación o ejecución deficiente. La historia reciente de políticas públicas en México demuestra que, sin una adecuada supervisión, incluso las mejores ideas pueden resultar ineficaces o ser utilizadas con fines contrarios a los previstos.
+También es relevante la parte anónima. Es decir, en un escenario en el que yo tuviera que juzgar a usted, profesor, y usted supiera que yo lo juzgo, podría reprobarme o algo similar. Sería mejor que no supiera que yo lo juzgo para evitar represalias. Esto podría contribuir a la implementación de la ley. 
 
-Por otro lado, la eliminación o absorción de organismos autónomos bajo el control del Poder Ejecutivo presenta riesgos alarmantes. Estos organismos no solo son pilares fundamentales en la defensa de derechos humanos, la lucha contra la corrupción y la promoción de la transparencia, sino que también representan un contrapeso esencial en un sistema democrático. Sustituir su independencia por un mayor control centralizado podría abrir la puerta a abusos de poder, manipulaciones políticas y opacidad en el manejo de recursos públicos.
+El problema principal, a mi parecer, es la corrupción y el funcionamiento de las mañas. Por ejemplo, al cambiar de juez, técnicamente debe haber un vencedor y alguien se dará cuenta de quién es. Además, las ratas están en el gobierno, no están aparte; estas personas están ahí. Entonces, yo creo que el problema es la corrupción. 
 
-Además, las consecuencias sociales de estas reformas no pueden ignorarse. Sectores vulnerables como comunidades indígenas, personas con discapacidad y organizaciones de la sociedad civil dependen de los organismos autónomos para garantizar su acceso a derechos y servicios fundamentales. Su eliminación podría desarticular las redes de apoyo que protegen a estos grupos, agravando desigualdades existentes y dificultando su participación activa en la vida pública.
+Por lo tanto, tratar de dialogar con ellos, como "Oye, te doy una feria y tú me dejas pasar" o cosas similares, no es inalcanzable al cambiar de jueces. Además, si eres una persona que está recibiendo un juicio injusto, ahí sí veo un beneficio. 
 
-En términos económicos, los costos asociados con estas reformas son un desafío importante. Si bien se argumenta que podrían mejorar la calidad de la justicia a largo plazo, el riesgo de desvío de recursos, corrupción y mala gestión podría anular los beneficios esperados. Sin un marco claro y transparente para administrar los fondos, estos costos podrían representar una carga innecesaria para la ciudadanía sin ofrecer resultados tangibles.
+Otra de las cosas negativas es la eliminación o absorción de las entidades autónomas bajo el control del poder ejecutivo, pues son los pilares que resguardan los derechos humanos contra la corrupción. No tenemos claro si esto podría tener éxito, pero posiblemente en el futuro podría ser una solución. 
 
-Por todo lo anterior, considero que es necesario abordar las reformas con cautela, priorizando la mejora de la eficiencia y la calidad del sistema judicial y los organismos autónomos, sin comprometer su independencia ni su capacidad de actuar como contrapesos democráticos. En lugar de eliminarlos, sería más efectivo implementar estrategias de fortalecimiento, modernización y rendición de cuentas que respeten los principios constitucionales y protejan los derechos fundamentales de todos los ciudadanos. Solo así se podrá garantizar un sistema que promueva la justicia, la transparencia y la equidad de manera sostenible y confiable.
+Existen dos aspectos importantes. Como mencioné anteriormente, podrían haberse ahorrado gastos al no existir una elección, es decir, 14 millones de pesos. Esto es positivo para el presupuesto del país, aunque puede parecer escaso, pudo haberse destinado a otras actividades. Además, siempre existirá una forma de ahorrar. 
+
+Otro aspecto es que, si los indígenas desaparecen, carecerán de derechos humanos. Las organizaciones autónomas aseguran su acceso a derechos y servicios esenciales. No sé qué sucedería si desaparecen, pero es como si te
